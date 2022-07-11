@@ -45,4 +45,10 @@ public class IlhaController {
     return ResponseEntity.ok().body(update);
   }
 
+  @DeleteMapping("/ilhas/{id}")
+  public ResponseEntity<Ilha> delete(@PathVariable String id) {
+    System.out.print(id);
+    service.delete(id);
+    return ResponseEntity.ok().build();
+  }  
 }

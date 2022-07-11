@@ -37,4 +37,10 @@ public class RegistroController {
     return ResponseEntity.ok().body(registros);
   }
 
+  @GetMapping("/{register_id}")
+  public ResponseEntity<RegistroIlha> findById(@PathVariable String register_id) {
+    RegistroIlha registro = service.findById(register_id);
+    return ResponseEntity.ok().body(registro);
+  }
+
 }

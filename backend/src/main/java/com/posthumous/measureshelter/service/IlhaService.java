@@ -21,4 +21,8 @@ public class IlhaService {
     return ilhaRepository.findAll();
   }
 
+  public Ilha findById(String id) {
+    return ilhaRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Ilha não encontrada."));
+  }
+
 }

@@ -23,4 +23,12 @@ public class RegistroController {
   @Autowired
   private RegistroService service;
 
+  @PostMapping
+  public ResponseEntity<RegistroIlha> create(@PathVariable String id, @RequestBody RegistroIlha registro) {
+    registro.setIdIlha(id);
+    registro.setData(new Date().toString());
+    RegistroIlha created = service.create(registro);
+    return ResponseEntity.status(HttpStatus.CREATED).body(created);
+  }
+
 }

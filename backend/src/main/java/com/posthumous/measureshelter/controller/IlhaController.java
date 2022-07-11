@@ -27,4 +27,10 @@ public class IlhaController {
     return ResponseEntity.status(HttpStatus.CREATED).body(created);
   }
   
+  @GetMapping("/ilhas")
+  public ResponseEntity<List<Ilha>> findAll() {
+    List<Ilha> ilhas = service.findAll();
+    return ResponseEntity.ok().body(ilhas);
+  }
+
 }

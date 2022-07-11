@@ -12,4 +12,9 @@ import com.posthumous.measureshelter.repository.IlhaRepository;
 public class IlhaService {
   @Autowired
   private IlhaRepository ilhaRepository;
+
+  public Ilha create(Ilha ilha) {
+    return ilhaRepository.save(ilha);
+  }
+
 }

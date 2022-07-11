@@ -14,6 +14,8 @@ public class FotoSatelite {
 
   private Date data; // Data e hora da foto
 
+  public FotoSatelite() {}
+
   public FotoSatelite(String url) {
     this.url = url;
     this.data = new Date();

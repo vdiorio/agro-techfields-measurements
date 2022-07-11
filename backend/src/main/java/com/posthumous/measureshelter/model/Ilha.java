@@ -1,9 +1,6 @@
 package com.posthumous.measureshelter.model;
 
-import java.util.List;
-
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document(collection = "ilhas")
@@ -13,8 +10,7 @@ public class Ilha {
 
   private String localizacao; // Localização da ilha
 
-  @DBRef(lazy = true)
-  private List<RegistroIlha> registros; // Lista de registros de ilha
+  public Ilha() {}
 
   public Ilha(String localizacao) {
     this.localizacao = localizacao;
@@ -34,9 +30,5 @@ public class Ilha {
 
   public void setLocalizacao(String localizacao) {
     this.localizacao = localizacao;
-  }
-
-  public List<RegistroIlha> getRegistros() {
-    return registros;
   }
 }

@@ -17,4 +17,8 @@ public class IlhaService {
     return ilhaRepository.save(ilha);
   }
 
+  public List<Ilha> findAll() {
+    return ilhaRepository.findAll();
+  }
+
 }

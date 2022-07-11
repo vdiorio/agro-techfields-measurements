@@ -31,4 +31,10 @@ public class RegistroController {
     return ResponseEntity.status(HttpStatus.CREATED).body(created);
   }
 
+  @GetMapping
+  public ResponseEntity<List<RegistroIlha>> findAll(@PathVariable String id) {
+    List<RegistroIlha> registros = service.findAllByIlhaId(id);
+    return ResponseEntity.ok().body(registros);
+  }
+
 }

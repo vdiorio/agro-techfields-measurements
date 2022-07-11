@@ -33,4 +33,10 @@ public class IlhaController {
     return ResponseEntity.ok().body(ilhas);
   }
 
+  @GetMapping("/ilhas/{id}")
+  public ResponseEntity<Ilha> findById(@PathVariable String id) {
+    Ilha ilha = service.findById(id);
+    return ResponseEntity.ok().body(ilha);
+  }
+
 }

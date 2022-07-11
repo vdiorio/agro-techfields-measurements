@@ -17,5 +17,9 @@ public class RegistroService {
     RegistroIlha created = repository.save(registro);
     return created;
   }
-  
+
+  public RegistroIlha findById(String id) {
+    return repository.findById(id).orElseThrow(() -> new IllegalArgumentException("Registro não encontrado."));
+  }
+
 }

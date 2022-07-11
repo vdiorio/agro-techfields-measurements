@@ -31,4 +31,7 @@ public class IlhaService {
     return ilhaRepository.save(update);
   }
 
+  public void delete(String id) {
+    ilhaRepository.deleteById(id);
+  }
 }

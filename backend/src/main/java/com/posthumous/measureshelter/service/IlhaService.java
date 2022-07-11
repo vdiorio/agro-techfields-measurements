@@ -25,4 +25,10 @@ public class IlhaService {
     return ilhaRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Ilha não encontrada."));
   }
 
+  public Ilha update(String id, Ilha ilha) {
+    Ilha update = findById(id);
+    update.setLocalizacao(ilha.getLocalizacao());
+    return ilhaRepository.save(update);
+  }
+
 }

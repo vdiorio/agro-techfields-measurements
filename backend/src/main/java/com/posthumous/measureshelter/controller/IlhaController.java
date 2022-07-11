@@ -39,4 +39,10 @@ public class IlhaController {
     return ResponseEntity.ok().body(ilha);
   }
 
+  @PutMapping("/ilhas/{id}")
+  public ResponseEntity<Ilha> update(@PathVariable String id, @RequestBody Ilha ilha) {
+    Ilha update = service.update(id, ilha);
+    return ResponseEntity.ok().body(update);
+  }
+
 }

@@ -22,4 +22,12 @@ public class RegistroService {
     return repository.findById(id).orElseThrow(() -> new IllegalArgumentException("Registro não encontrado."));
   }
 
+  public List<RegistroIlha> findAllByIlhaId(String id) {
+    List<RegistroIlha> list = repository.findByIlhaId(id);
+    if (list.isEmpty()) {
+      throw new IllegalArgumentException("Nenhum registro encontrado.");
+    }
+    return list;
+  }
+  
 }

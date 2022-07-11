@@ -43,4 +43,9 @@ public class RegistroController {
     return ResponseEntity.ok().body(registro);
   }
 
+  @DeleteMapping
+  public ResponseEntity<RegistroIlha> delete(@PathVariable String id) {
+    service.delete(id);
+    return ResponseEntity.ok().build();
+  }
 }

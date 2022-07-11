@@ -21,4 +21,10 @@ public class IlhaController {
   @Autowired
   private IlhaService service;
 
+  @PostMapping("/ilhas")
+  public ResponseEntity<Ilha> create(@RequestBody Ilha ilha) {
+    Ilha created = service.create(ilha);
+    return ResponseEntity.status(HttpStatus.CREATED).body(created);
+  }
+  
 }

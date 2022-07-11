@@ -13,4 +13,9 @@ public class RegistroService {
   @Autowired
   private RegistroRepository repository;
 
+  public RegistroIlha create(RegistroIlha registro) {
+    RegistroIlha created = repository.save(registro);
+    return created;
+  }
+  
 }

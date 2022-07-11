@@ -30,4 +30,7 @@ public class RegistroService {
     return list;
   }
   
+  public void delete(String id) {
+    repository.deleteById(id);
+  }
 }

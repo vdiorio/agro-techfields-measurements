@@ -22,7 +22,23 @@ public class RegistroIlha {
 
   public RegistroIlha() {}
 
-  public RegistroIlha(String idIlha, long umidadeAr, long umidadeSolo, Integer temperatura, Long luz, String data) {
+  /**
+   * Construtor da ilha.
+   * @param idIlha Identificador.
+   * @param umidadeAr % Porcentagem.
+   * @param umidadeSolo % Porcentagem.
+   * @param temperatura Graus Celsius.
+   * @param luz Wh/m2.
+   * @param data Data e hora da medida.
+   */
+  public RegistroIlha(
+      String idIlha,
+      long umidadeAr,
+      long umidadeSolo,
+      Integer temperatura,
+      Long luz,
+      String data
+  ) {
     this.idIlha = idIlha;
     this.umidadeAr = umidadeAr;
     this.umidadeSolo = umidadeSolo;

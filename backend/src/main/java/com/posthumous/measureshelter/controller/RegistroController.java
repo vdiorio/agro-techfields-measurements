@@ -1,5 +1,8 @@
 package com.posthumous.measureshelter.controller;
 
+import com.posthumous.measureshelter.model.RegistroIlha;
+import com.posthumous.measureshelter.service.RegistroService;
+
 import java.util.Date;
 import java.util.List;
 
@@ -14,17 +17,22 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.posthumous.measureshelter.model.RegistroIlha;
-import com.posthumous.measureshelter.service.RegistroService;
-
 @RestController
 @RequestMapping("/ilhas/{id}/registros")
 public class RegistroController {
   @Autowired
   private RegistroService service;
 
+  /**
+   * Cria um novo registro de uma ilha.
+   * @param id Ilha a ser registrada.
+   * @param registro Ilha a ser registrada.
+   * @return
+   */
   @PostMapping
-  public ResponseEntity<RegistroIlha> create(@PathVariable String id, @RequestBody RegistroIlha registro) {
+  public ResponseEntity<RegistroIlha> create(
+      @PathVariable String id,
+      @RequestBody RegistroIlha registro) {
     registro.setIdIlha(id);
     registro.setData(new Date().toString());
     RegistroIlha created = service.create(registro);
@@ -37,9 +45,9 @@ public class RegistroController {
     return ResponseEntity.ok().body(registros);
   }
 
-  @GetMapping("/{register_id}")
-  public ResponseEntity<RegistroIlha> findById(@PathVariable String register_id) {
-    RegistroIlha registro = service.findById(register_id);
+  @GetMapping("/{registerId}")
+  public ResponseEntity<RegistroIlha> findById(@PathVariable String registerId) {
+    RegistroIlha registro = service.findById(registerId);
     return ResponseEntity.ok().body(registro);
   }
 

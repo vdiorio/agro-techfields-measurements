@@ -1,5 +1,8 @@
 package com.posthumous.measureshelter.controller;
 
+import com.posthumous.measureshelter.model.Ilha;
+import com.posthumous.measureshelter.service.IlhaService;
+
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,9 +15,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-
-import com.posthumous.measureshelter.model.Ilha;
-import com.posthumous.measureshelter.service.IlhaService;
 
 @RestController
 public class IlhaController {
@@ -47,7 +47,6 @@ public class IlhaController {
 
   @DeleteMapping("/ilhas/{id}")
   public ResponseEntity<Ilha> delete(@PathVariable String id) {
-    System.out.print(id);
     service.delete(id);
     return ResponseEntity.ok().build();
   }  

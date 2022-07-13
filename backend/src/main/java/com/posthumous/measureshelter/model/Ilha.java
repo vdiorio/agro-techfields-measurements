@@ -5,30 +5,59 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document(collection = "ilhas")
 public class Ilha {
+  /**
+   * Identificador da ilha.
+   */
   @Id
   private String id; // Identificador do documento no MongoDB
 
-  private String localizacao; // Localização da ilha
+  /**
+   * Localização da ilha.
+   */
+  private String localizacao;
 
+  /**
+   * Construtor padrão da ilha.
+   */
   public Ilha() {}
 
-  public Ilha(String localizacao) {
+  /**
+   * Construtor da ilha.
+   * @param localizacao Localização da ilha.
+   */
+  public Ilha(final String localizacao) {
     this.localizacao = localizacao;
   }
 
-  public String getId() {
+  /**
+   * Retorna o identificador da ilha.
+   * @return Identificador da ilha.
+   */
+  public final String getId() {
     return id;
   }
 
-  public void setId(String id) {
+  /**
+   * Define o identificador da ilha.
+   * @param id Identificador da ilha.
+   */
+  public final void setId(final String id) {
     this.id = id;
   }
 
-  public String getLocalizacao() {
+  /**
+   * Retorna a localização da ilha.
+   * @return Localização da ilha.
+   */
+  public final String getLocalizacao() {
     return localizacao;
   }
 
-  public void setLocalizacao(String localizacao) {
+  /**
+   * Define a localização da ilha.
+   * @param localizacao Localização da ilha.
+   */
+  public final void setLocalizacao(final String localizacao) {
     this.localizacao = localizacao;
   }
 }

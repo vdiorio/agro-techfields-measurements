@@ -89,4 +89,15 @@ public class FotoSateliteTest {
       .andExpect(jsonPath("$.id").value("1"))
       .andExpect(jsonPath("$.url").value("http://foto1.com"));
   }
+
+  @Test
+  @DisplayName("Testa retorno da rota GET:/fotos/{id} quando o id não existe no banco.")
+  public void testaSeRetornaErroQuandoNaoEncontraFoto() throws Exception {    
+    Mockito.when(fotoService.findById(any())).thenThrow(new IllegalArgumentException("Não existe uma foto com o id: 1."));
+    
+    mockMvc.perform(get("/fotos/1"))
+      .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+      .andExpect(status().isNotFound())
+      .andExpect(jsonPath("$.error").value("Não existe uma foto com o id: 1."));
+  }
 }

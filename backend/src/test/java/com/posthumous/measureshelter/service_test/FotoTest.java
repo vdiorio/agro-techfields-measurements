@@ -2,11 +2,14 @@ package com.posthumous.measureshelter.service_test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-  import static org.junit.jupiter.api.Assertions.assertThrows;
-  import static org.mockito.ArgumentMatchers.any;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
 import java.util.Date;
 import java.util.Optional;
+import java.util.List;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -65,5 +68,31 @@ public class FotoTest {
   public void testaRetornoDeFotoPeloId() {
     Mockito.when(repository.findById(any(String.class))).thenReturn(Optional.empty());
     assertThrows(IllegalArgumentException.class, () -> fotoService.findById("1"));
+  }
+
+  @Test
+  @DisplayName("Testa se o service retorna todas as fotos.")
+  public void testaBuscaDeFotoPeloIdDaIlha() {
+    List<FotoSatelite> mockPhoto = List.of(mockPhoto());
+    Mockito.when(repository.findAll()).thenReturn(mockPhoto);
+    List<FotoSatelite> photos = fotoService.findAll();
+    assertEquals(photos.size(), 1);
+  }
+
+  @Test
+  @DisplayName("Testa se o service lança um erro quando a lista está vazia.")
+  public void testaRetornoDeFotoPeloIdDaIlha() {
+    List<FotoSatelite> mockPhoto = List.of();
+    Mockito.when(repository.findAll()).thenReturn(mockPhoto);
+    assertThrows(IllegalArgumentException.class, () -> fotoService.findAll());
+  }
+
+  @Test
+  @DisplayName("Testa se o service deleta uma foto pelo id.")
+  public void testaDeletaFotoPeloId() {
+    FotoSatelite foto = mockPhoto();
+    Mockito.when(repository.findById(any(String.class))).thenReturn(Optional.of(foto));
+    fotoService.delete("1");
+    verify(repository, times(1)).delete(foto);
   }
 }

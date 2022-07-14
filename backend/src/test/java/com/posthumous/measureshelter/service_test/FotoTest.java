@@ -95,4 +95,11 @@ public class FotoTest {
     fotoService.delete("1");
     verify(repository, times(1)).delete(foto);
   }
+
+  @Test
+  @DisplayName("Testa se o service lança um erro quando o id não existe.")
+  public void testaErroDeletaFotoPeloId() {
+    Mockito.when(repository.findById(any(String.class))).thenReturn(Optional.empty());
+    assertThrows(IllegalArgumentException.class, () -> fotoService.delete("1"));
+  }
 }

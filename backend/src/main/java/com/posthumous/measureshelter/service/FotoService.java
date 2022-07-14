@@ -27,4 +27,9 @@ public class FotoService {
     return fotos;
   }
 
+  public FotoSatelite findById(String id) {
+    return fotoSateliteRepository.findById(id)
+      .orElseThrow(() -> new IllegalArgumentException("Não existe uma foto com o id: " + id));
+  }
+
 }

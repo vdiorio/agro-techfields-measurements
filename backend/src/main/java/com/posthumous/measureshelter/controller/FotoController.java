@@ -38,4 +38,9 @@ public class FotoController {
     return ResponseEntity.ok().body(foto);
   }
 
+  @DeleteMapping("/fotos/{id}")
+  public ResponseEntity<FotoSatelite> delete(@PathVariable String id) {
+    fotoService.delete(id);
+    return ResponseEntity.ok().build();
+  }
 }

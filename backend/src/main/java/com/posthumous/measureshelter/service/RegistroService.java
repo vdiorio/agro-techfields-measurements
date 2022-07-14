@@ -1,5 +1,6 @@
 package com.posthumous.measureshelter.service;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,7 @@ public class RegistroService {
   private RegistroRepository repository;
 
   public RegistroIlha create(RegistroIlha registro) {
+    registro.setData(new Date());
     RegistroIlha created = repository.save(registro);
     return created;
   }

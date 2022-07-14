@@ -1,5 +1,7 @@
 package com.posthumous.measureshelter.model;
 
+import java.util.Date;
+
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -18,7 +20,7 @@ public class RegistroIlha {
 
   private Long luz; // Wh/m2
 
-  private String data; // Data e hora da medida
+  private Date data; // Data e hora da medida
 
   public RegistroIlha() {}
 
@@ -37,7 +39,7 @@ public class RegistroIlha {
       long umidadeSolo,
       Integer temperatura,
       Long luz,
-      String data
+      Date data
   ) {
     this.idIlha = idIlha;
     this.umidadeAr = umidadeAr;
@@ -95,11 +97,11 @@ public class RegistroIlha {
     this.luz = luz;
   }
 
-  public String getData() {
+  public Date getData() {
     return data;
   }
 
-  public void setData(String data) {
+  public void setData(Date data) {
     this.data = data;
   }
 }

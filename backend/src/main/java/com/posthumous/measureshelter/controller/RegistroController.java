@@ -3,7 +3,6 @@ package com.posthumous.measureshelter.controller;
 import com.posthumous.measureshelter.model.RegistroIlha;
 import com.posthumous.measureshelter.service.RegistroService;
 
-import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +33,6 @@ public class RegistroController {
       @PathVariable String id,
       @RequestBody RegistroIlha registro) {
     registro.setIdIlha(id);
-    registro.setData(new Date().toString());
     RegistroIlha created = service.create(registro);
     return ResponseEntity.status(HttpStatus.CREATED).body(created);
   }
@@ -42,7 +40,7 @@ public class RegistroController {
   @GetMapping
   public ResponseEntity<List<RegistroIlha>> findAll(@PathVariable String id) {
     List<RegistroIlha> registros = service.findAllByIlhaId(id);
-    return ResponseEntity.ok().body(registros);
+    return ResponseEntity.ok().body(registros );
   }
 
   @GetMapping("/{registerId}")

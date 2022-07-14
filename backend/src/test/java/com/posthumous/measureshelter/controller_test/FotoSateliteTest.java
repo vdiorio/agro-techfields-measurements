@@ -1,7 +1,6 @@
 package com.posthumous.measureshelter.controller_test;
 
 
-
 import java.util.List;
 
 import org.junit.jupiter.api.DisplayName;
@@ -16,6 +15,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
 import com.posthumous.measureshelter.service.FotoService;
 
@@ -40,6 +40,17 @@ public class FotoSateliteTest {
     .andExpect(content().contentType(MediaType.APPLICATION_JSON))
       .andExpect(status().isOk())
       .andExpect(content().string("[]")); 
+  }
+
+  @Test
+  @DisplayName("Testa retorno da rota GET:/fotos quando não encontra nenhuma foto.")
+  public void testaSeRetornaFotosSalvas() throws Exception {
+    Mockito.when(fotoService.findAll()).thenThrow(new IllegalArgumentException("Nenhuma foto encontrada."));
+
+    mockMvc.perform(get("/fotos"))
+    .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+      .andExpect(status().isNotFound())
+      .andExpect(jsonPath("$.error").value("Nenhuma foto encontrada."));
   }
 
 }

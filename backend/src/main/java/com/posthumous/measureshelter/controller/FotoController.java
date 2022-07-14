@@ -19,4 +19,11 @@ import com.posthumous.measureshelter.service.FotoService;
 public class FotoController {
   @Autowired
   private FotoService fotoService;
+
+  @PostMapping("/fotos")
+  public ResponseEntity<FotoSatelite> create(@RequestBody FotoSatelite fotoSatelite) {
+    FotoSatelite created = fotoService.create(fotoSatelite);
+    return ResponseEntity.status(HttpStatus.CREATED).body(created);
+  }
+
 }

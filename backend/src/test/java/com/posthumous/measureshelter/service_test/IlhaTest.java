@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 
+import java.util.List;
 import java.util.Optional;
 
 import static org.mockito.Mockito.times;
@@ -57,5 +58,30 @@ public class IlhaTest {
   public void testaBuscaDeIlhaPeloIdSemResultado() {
     Mockito.when(repository.findById(any(String.class))).thenReturn(Optional.empty());
     assertThrows(IllegalArgumentException.class, () -> ilhaService.findById("1"));
+  }
+
+  @Test
+  @DisplayName("A função findAll deve retornar uma lista de ilhas.")
+  public void testaBuscaDeTodasIlhas() {
+    List<Ilha> ilhas = List.of(mockIlha());
+    Mockito.when(repository.findAll()).thenReturn(ilhas);
+    ilhaService.findAll();
+    verify(repository, times(1)).findAll();
+  }
+
+  @Test
+  @DisplayName("A função delete deve deletar uma ilha pelo id.")
+  public void testaDelecaoDeIlhaPeloId() {
+    Ilha ilha = mockIlha();
+    Mockito.when(repository.findById(any(String.class))).thenReturn(Optional.of(ilha));
+    ilhaService.delete("1");
+    verify(repository, times(1)).delete(ilha);
+  }
+
+  @Test
+  @DisplayName("A função delete deve lançar uma exceção caso não encontre uma ilha pelo id.")
+  public void testaDelecaoDeIlhaPeloIdSemResultado() {
+    Mockito.when(repository.findById(any(String.class))).thenReturn(Optional.empty());
+    assertThrows(IllegalArgumentException.class, () -> ilhaService.delete("1"));
   }
 }

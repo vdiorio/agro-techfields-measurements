@@ -77,4 +77,16 @@ public class FotoSateliteTest {
       .andExpect(jsonPath("$.id").value("1"))
       .andExpect(jsonPath("$.url").value("http://foto1.com"));
   }
+
+  @Test
+  @DisplayName("Testa retorno da rota GET:/fotos/{id}.")
+  public void testaSeRetornaFotoPorId() throws Exception {    
+    Mockito.when(fotoService.findById(any())).thenReturn(mockPhoto());
+    
+    mockMvc.perform(get("/fotos/1"))
+      .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+      .andExpect(status().isOk())
+      .andExpect(jsonPath("$.id").value("1"))
+      .andExpect(jsonPath("$.url").value("http://foto1.com"));
+  }
 }

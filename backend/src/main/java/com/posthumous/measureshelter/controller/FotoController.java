@@ -32,4 +32,10 @@ public class FotoController {
     return ResponseEntity.ok().body(fotos);
   }
 
+  @GetMapping("/fotos/{id}")
+  public ResponseEntity<FotoSatelite> findById(@PathVariable String id) {
+    FotoSatelite foto = fotoService.findById(id);
+    return ResponseEntity.ok().body(foto);
+  }
+
 }

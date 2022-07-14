@@ -14,9 +14,12 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import com.posthumous.measureshelter.model.Ilha;
 
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.ArgumentMatchers.any;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -94,6 +97,27 @@ public class IlhaTest {
 
     mockMvc.perform(get("/ilhas/1"))
       .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+      .andExpect(status().isNotFound())
+      .andExpect(jsonPath("$.error").value("Não existe uma ilha com o id: 1."));
+  }
+
+  @Test
+  @DisplayName("Testa retorno da rota DELETE:/ilhas/{id}.")
+  public void testaSeRetornaIlhaDeletada() throws Exception {
+    
+    doNothing().when(ilhaService).delete(any());
+
+    mockMvc.perform(delete("/ilhas/1"))
+      .andExpect(status().isOk());
+  }
+
+  @Test
+  @DisplayName("Testa retorno da rota DELETE:/ilhas/{id} quando o id não existe no banco.")
+  public void testaSeRetornaErroQuandoNaoEncontrarIlha() throws Exception {
+    
+    doThrow(new IllegalArgumentException("Não existe uma ilha com o id: 1.")).when(ilhaService).delete("1");
+
+    mockMvc.perform(delete("/ilhas/1"))
       .andExpect(status().isNotFound())
       .andExpect(jsonPath("$.error").value("Não existe uma ilha com o id: 1."));
   }

@@ -19,4 +19,12 @@ public class FotoService {
     return fotoSateliteRepository.save(fotoSatelite);
   }
 
+  public List<FotoSatelite> findAll() {
+    List<FotoSatelite> fotos = fotoSateliteRepository.findAll();
+    if (fotos.isEmpty()) {
+      throw new IllegalArgumentException("Nenhuma foto encontrada.");
+    }
+    return fotos;
+  }
+
 }

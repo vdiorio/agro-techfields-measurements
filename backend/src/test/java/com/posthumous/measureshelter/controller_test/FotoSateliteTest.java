@@ -20,6 +20,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.mockito.Mockito.doNothing;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 
 import com.posthumous.measureshelter.service.FotoService;
 
@@ -99,5 +101,15 @@ public class FotoSateliteTest {
       .andExpect(content().contentType(MediaType.APPLICATION_JSON))
       .andExpect(status().isNotFound())
       .andExpect(jsonPath("$.error").value("Não existe uma foto com o id: 1."));
+  }
+
+  @Test
+  @DisplayName("Testa retorno da rota DELETE:/fotos/{id}.")
+  public void testaSeRetornaFotoDeletada() throws Exception {
+    
+    doNothing().when(fotoService).delete(any());
+    
+    mockMvc.perform(delete("/fotos/1"))
+      .andExpect(status().isOk());
   }
 }

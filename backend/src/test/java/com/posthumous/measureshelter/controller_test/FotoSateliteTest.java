@@ -124,4 +124,32 @@ public class FotoSateliteTest {
       .andExpect(status().isNotFound())
       .andExpect(jsonPath("$.error").value("Não existe uma foto com o id: 1."));
   }
+
+  @Test
+  @DisplayName("As rotas devem retornar status 500 quando ocorre um erro.")
+  public void testaSeRetornaErro500() throws Exception {
+    
+    doThrow(new RuntimeException("Erro Interno no servidor")).when(fotoService).findAll();
+    doThrow(new RuntimeException("Erro Interno no servidor")).when(fotoService).findById(any());
+    doThrow(new RuntimeException("Erro Interno no servidor")).when(fotoService).create(any());
+    doThrow(new RuntimeException("Erro Interno no servidor")).when(fotoService).delete(any());
+    
+    mockMvc.perform(post("/fotos")
+      .contentType(MediaType.APPLICATION_JSON)
+      .content("{\"url\":\"http://foto1.com\"}"))
+      .andExpect(status().isInternalServerError())
+      .andExpect(jsonPath("$.error").value("Erro Interno no servidor"));
+
+    mockMvc.perform(get("/fotos"))
+      .andExpect(status().isInternalServerError())
+      .andExpect(jsonPath("$.error").value("Erro Interno no servidor"));
+      
+    mockMvc.perform(get("/fotos/1"))
+      .andExpect(status().isInternalServerError())
+      .andExpect(jsonPath("$.error").value("Erro Interno no servidor"));
+      
+    mockMvc.perform(delete("/fotos/1"))
+      .andExpect(status().isInternalServerError())
+      .andExpect(jsonPath("$.error").value("Erro Interno no servidor"));
+  }
 }

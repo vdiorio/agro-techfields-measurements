@@ -1,6 +1,7 @@
 package com.posthumous.measureshelter.controller_test;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doNothing;
 
 import java.util.Date;
 import java.util.List;
@@ -16,6 +17,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -87,4 +89,40 @@ public class RegistroTest {
       .andExpect(jsonPath("$.temperatura").value(10));
   }
 
+  @Test
+  @DisplayName("Testa retorno da rota GET:/ilhas/{idIlha}/registros/{id}.")
+  public void testaSeRetornaRegistroPorId() throws Exception {    
+    Mockito.when(registroService.findById(any())).thenReturn(mockRegistro());
+
+    mockMvc.perform(get("/ilhas/1/registros/1"))
+      .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+      .andExpect(status().isOk())
+      .andExpect(jsonPath("$.id").value("1"))
+      .andExpect(jsonPath("$.idIlha").value("1"))
+      .andExpect(jsonPath("$.luz").value(10))
+      .andExpect(jsonPath("$.umidadeAr").value(10))
+      .andExpect(jsonPath("$.umidadeSolo").value(10))
+      .andExpect(jsonPath("$.temperatura").value(10));
+  }
+
+  @Test
+  @DisplayName("Testa retorno da rota GET:/ilhas/{idIlha}/registros/{id} quando o id não existe no banco.")
+  public void testaSeRetornaErroQuandoNaoEncontraRegistro() throws Exception {    
+    Mockito.when(registroService.findById(any())).thenThrow(new IllegalArgumentException("Não existe uma registro com o id: 1."));
+
+    mockMvc.perform(get("/ilhas/1/registros/1"))
+      .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+      .andExpect(status().isNotFound())
+      .andExpect(jsonPath("$.error").value("Não existe uma registro com o id: 1."));
+  }
+
+  @Test
+  @DisplayName("Testa retorno da rota DELETE:/ilhas/{idIlha}/registros/{id}.")
+  public void testaSeRetornaRegistroDeletada() throws Exception {
+    
+    doNothing().when(registroService).delete(any());
+
+    mockMvc.perform(delete("/ilhas/1/registros/1"))
+      .andExpect(status().isOk());
+  }
 }

@@ -32,4 +32,7 @@ public class FotoService {
       .orElseThrow(() -> new IllegalArgumentException("Não existe uma foto com o id: " + id));
   }
 
+  public void delete(String id) {
+    fotoSateliteRepository.deleteById(id);
+  }
 }

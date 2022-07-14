@@ -84,4 +84,21 @@ public class IlhaTest {
     Mockito.when(repository.findById(any(String.class))).thenReturn(Optional.empty());
     assertThrows(IllegalArgumentException.class, () -> ilhaService.delete("1"));
   }
+
+  @Test
+  @DisplayName("A função update deve atualizar uma ilha pelo id.")
+  public void testaAtualizacaoDeIlhaPeloId() {
+    Mockito.when(repository.findById(any(String.class))).thenReturn(Optional.of(mockIlha()));
+    Ilha ilha = mockIlha();
+    ilhaService.update("1", ilha);
+    verify(repository, times(1)).save(any());
+  }
+
+  @Test
+  @DisplayName("A função update deve lançar uma exceção caso não encontre uma ilha pelo id.")
+  public void testaAtualizacaoDeIlhaPeloIdSemResultado() {
+    Mockito.when(repository.findById(any(String.class))).thenReturn(Optional.empty());
+    Ilha ilha = mockIlha();
+    assertThrows(IllegalArgumentException.class, () -> ilhaService.update("1", ilha));
+  }
 }

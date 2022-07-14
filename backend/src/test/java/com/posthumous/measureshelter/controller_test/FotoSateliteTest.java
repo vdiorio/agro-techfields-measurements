@@ -21,6 +21,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.doThrow;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 
 import com.posthumous.measureshelter.service.FotoService;
@@ -111,5 +112,16 @@ public class FotoSateliteTest {
     
     mockMvc.perform(delete("/fotos/1"))
       .andExpect(status().isOk());
+  }
+
+  @Test
+  @DisplayName("Testa retorno da rota DELETE:/fotos/{id} quando o id não existe no banco.")
+  public void testaSeRetornaErroQuandoNaoEncontrarFoto() throws Exception {
+    
+    doThrow(new IllegalArgumentException("Não existe uma foto com o id: 1.")).when(fotoService).delete("1");
+    
+    mockMvc.perform(delete("/fotos/1"))
+      .andExpect(status().isNotFound())
+      .andExpect(jsonPath("$.error").value("Não existe uma foto com o id: 1."));
   }
 }

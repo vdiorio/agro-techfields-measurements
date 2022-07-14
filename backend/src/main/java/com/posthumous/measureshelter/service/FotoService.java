@@ -13,4 +13,10 @@ import com.posthumous.measureshelter.repository.FotoSateliteRepository;
 public class FotoService {
   @Autowired
   private FotoSateliteRepository fotoSateliteRepository;
+
+  public FotoSatelite create(FotoSatelite fotoSatelite) {
+    fotoSatelite.setData(new Date());
+    return fotoSateliteRepository.save(fotoSatelite);
+  }
+
 }

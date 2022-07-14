@@ -26,4 +26,10 @@ public class FotoController {
     return ResponseEntity.status(HttpStatus.CREATED).body(created);
   }
 
+  @GetMapping("/fotos")
+  public ResponseEntity<List<FotoSatelite>> findAll() {
+    List<FotoSatelite> fotos = fotoService.findAll();
+    return ResponseEntity.ok().body(fotos);
+  }
+
 }

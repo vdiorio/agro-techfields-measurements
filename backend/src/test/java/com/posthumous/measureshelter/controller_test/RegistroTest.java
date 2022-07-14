@@ -2,6 +2,7 @@ package com.posthumous.measureshelter.controller_test;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.doThrow;
 
 import java.util.Date;
 import java.util.List;
@@ -124,5 +125,44 @@ public class RegistroTest {
 
     mockMvc.perform(delete("/ilhas/1/registros/1"))
       .andExpect(status().isOk());
+  }
+
+  @Test
+  @DisplayName("Testa retorno da rota DELETE:/ilhas/{idIlha}/registros/{id} quando o id não existe no banco.")
+  public void testaSeRetornaErroQuandoNaoEncontrarRegistro() throws Exception {
+    
+    doThrow(new IllegalArgumentException("Não existe uma registro com o id: 1.")).when(registroService).delete("1");
+
+    mockMvc.perform(delete("/ilhas/1/registros/1"))
+      .andExpect(status().isNotFound())
+      .andExpect(jsonPath("$.error").value("Não existe uma registro com o id: 1."));
+  }
+
+  @Test
+  @DisplayName("As rotas devem retornar status 500 quando ocorre um erro.")
+  public void testaSeRetornaErro500() throws Exception {
+    
+    doThrow(new RuntimeException("Erro Interno no servidor")).when(registroService).findAllByIlhaId(any());
+    doThrow(new RuntimeException("Erro Interno no servidor")).when(registroService).findById(any());
+    doThrow(new RuntimeException("Erro Interno no servidor")).when(registroService).create(any());
+    doThrow(new RuntimeException("Erro Interno no servidor")).when(registroService).delete(any());
+
+    mockMvc.perform(post("/ilhas/1/registros")
+      .contentType(MediaType.APPLICATION_JSON)
+      .content("{\"url\":\"http://registro1.com\"}"))
+      .andExpect(status().isInternalServerError())
+      .andExpect(jsonPath("$.error").value("Erro Interno no servidor"));
+
+    mockMvc.perform(get("/ilhas/1/registros"))
+      .andExpect(status().isInternalServerError())
+      .andExpect(jsonPath("$.error").value("Erro Interno no servidor"));
+
+    mockMvc.perform(get("/ilhas/1/registros/1"))
+      .andExpect(status().isInternalServerError())
+      .andExpect(jsonPath("$.error").value("Erro Interno no servidor"));
+
+    mockMvc.perform(delete("/ilhas/1/registros/1"))
+      .andExpect(status().isInternalServerError())
+      .andExpect(jsonPath("$.error").value("Erro Interno no servidor"));
   }
 }

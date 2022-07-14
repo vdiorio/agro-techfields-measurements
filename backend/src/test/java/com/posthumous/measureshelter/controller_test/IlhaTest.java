@@ -75,4 +75,26 @@ public class IlhaTest {
       .andExpect(status().isCreated())
       .andExpect(jsonPath("$.localizacao").value("Cajamar"));
   }
+
+  @Test
+  @DisplayName("Testa retorno da rota GET:/ilhas/{id}.")
+  public void testaSeRetornaIlhaPorId() throws Exception {    
+    Mockito.when(ilhaService.findById(any())).thenReturn(mockIlha());
+
+    mockMvc.perform(get("/ilhas/1"))
+      .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+      .andExpect(status().isOk())
+      .andExpect(jsonPath("$.localizacao").value("Cajamar"));
+  }
+
+  @Test
+  @DisplayName("Testa retorno da rota GET:/ilhas/{id} quando o id não existe no banco.")
+  public void testaSeRetornaErroQuandoNaoEncontraIlha() throws Exception {    
+    Mockito.when(ilhaService.findById(any())).thenThrow(new IllegalArgumentException("Não existe uma ilha com o id: 1."));
+
+    mockMvc.perform(get("/ilhas/1"))
+      .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+      .andExpect(status().isNotFound())
+      .andExpect(jsonPath("$.error").value("Não existe uma ilha com o id: 1."));
+  }
 }

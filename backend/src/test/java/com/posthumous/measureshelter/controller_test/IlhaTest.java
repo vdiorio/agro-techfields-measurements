@@ -121,4 +121,32 @@ public class IlhaTest {
       .andExpect(status().isNotFound())
       .andExpect(jsonPath("$.error").value("Não existe uma ilha com o id: 1."));
   }
+
+  @Test
+  @DisplayName("As rotas devem retornar status 500 quando ocorre um erro.")
+  public void testaSeRetornaErro500() throws Exception {
+    
+    doThrow(new RuntimeException("Erro Interno no servidor")).when(ilhaService).findAll();
+    doThrow(new RuntimeException("Erro Interno no servidor")).when(ilhaService).findById(any());
+    doThrow(new RuntimeException("Erro Interno no servidor")).when(ilhaService).create(any());
+    doThrow(new RuntimeException("Erro Interno no servidor")).when(ilhaService).delete(any());
+
+    mockMvc.perform(post("/ilhas")
+      .contentType(MediaType.APPLICATION_JSON)
+      .content("{\"url\":\"http://ilha1.com\"}"))
+      .andExpect(status().isInternalServerError())
+      .andExpect(jsonPath("$.error").value("Erro Interno no servidor"));
+
+    mockMvc.perform(get("/ilhas"))
+      .andExpect(status().isInternalServerError())
+      .andExpect(jsonPath("$.error").value("Erro Interno no servidor"));
+
+    mockMvc.perform(get("/ilhas/1"))
+      .andExpect(status().isInternalServerError())
+      .andExpect(jsonPath("$.error").value("Erro Interno no servidor"));
+
+    mockMvc.perform(delete("/ilhas/1"))
+      .andExpect(status().isInternalServerError())
+      .andExpect(jsonPath("$.error").value("Erro Interno no servidor"));
+  }
 }

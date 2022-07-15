@@ -22,7 +22,7 @@ import com.posthumous.measureshelter.repository.IlhaRepository;
 import com.posthumous.measureshelter.service.IlhaService;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("Teste de Foto")
+@DisplayName("Teste de Ilha")
 public class IlhaTest {
   @Mock
   private IlhaRepository repository;

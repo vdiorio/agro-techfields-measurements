@@ -4,8 +4,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
 
 import java.util.Date;
 import java.util.Optional;
@@ -28,7 +26,7 @@ import com.posthumous.measureshelter.service.FotoService;
 public class FotoTest {
   private FotoSatelite mockPhoto() {
     FotoSatelite mockPhoto = new FotoSatelite();
-    mockPhoto.setUrl("http://foto1.com");
+    mockPhoto.setPath("photo/path");
     mockPhoto.setId("1");
     mockPhoto.setData(new Date());
     return mockPhoto;
@@ -47,7 +45,7 @@ public class FotoTest {
     Mockito.when(repository.save(any(FotoSatelite.class))).thenReturn(newMock);
 
     fotoService.create(mockPhoto());
-    assertEquals(newMock.getUrl(), "http://foto1.com");
+    assertEquals(newMock.getPath(), "photo/path");
     assertEquals(newMock.getId(), "1");
     assertNotNull(newMock.getData());
   }
@@ -58,7 +56,7 @@ public class FotoTest {
     FotoSatelite mockPhoto = mockPhoto();
     Mockito.when(repository.findById(any(String.class))).thenReturn(Optional.of(mockPhoto));
     FotoSatelite photo = fotoService.findById("1");
-    assertEquals(photo.getUrl(), "http://foto1.com");
+    assertEquals(photo.getPath(), "photo/path");
     assertEquals(photo.getId(), "1");
     assertNotNull(photo.getData());
   }
@@ -85,15 +83,6 @@ public class FotoTest {
     List<FotoSatelite> mockPhoto = List.of();
     Mockito.when(repository.findAll()).thenReturn(mockPhoto);
     assertThrows(IllegalArgumentException.class, () -> fotoService.findAll());
-  }
-
-  @Test
-  @DisplayName("Testa se o service deleta uma foto pelo id.")
-  public void testaDeletaFotoPeloId() {
-    FotoSatelite foto = mockPhoto();
-    Mockito.when(repository.findById(any(String.class))).thenReturn(Optional.of(foto));
-    fotoService.delete("1");
-    verify(repository, times(1)).delete(foto);
   }
 
   @Test

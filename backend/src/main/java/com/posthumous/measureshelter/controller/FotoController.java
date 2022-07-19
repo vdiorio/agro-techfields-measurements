@@ -47,7 +47,14 @@ public class FotoController {
   @GetMapping("/fotos/{id}")
   public ResponseEntity<FotoSatelite> findById(@PathVariable String id) {
     FotoSatelite foto = fotoService.findById(id);
-    return ResponseEntity.ok().body(foto);
+
+  @GetMapping("/download/{id}")
+  public HttpEntity<byte[]> downloadImage(@PathVariable String id) throws IOException {
+    byte[] image = fotoService.downloadImage(id);
+    HttpHeaders headers = new HttpHeaders();
+    headers.setContentType(MediaType.IMAGE_JPEG);
+    headers.setContentLength(image.length);
+    return new HttpEntity<byte[]>(image, headers);
   }
 
   @DeleteMapping("/fotos/{id}")

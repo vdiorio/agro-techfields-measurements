@@ -33,6 +33,8 @@ public class RegistroService {
   }
   
   public void delete(String id) {
-    repository.deleteById(id);
+    RegistroIlha registro = repository.findById(id)
+      .orElseThrow(() -> new IllegalArgumentException("Registro não encontrado."));
+    repository.delete(registro);
   }
 }

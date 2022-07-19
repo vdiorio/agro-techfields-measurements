@@ -39,14 +39,19 @@ public class FotoController {
   }
 
   @GetMapping("/fotos")
-  public ResponseEntity<List<FotoSatelite>> findAll() {
+  public ResponseEntity<List<FotoDTO>> findAll(HttpServletRequest request) {
     List<FotoSatelite> fotos = fotoService.findAll();
-    return ResponseEntity.ok().body(fotos);
+    List<FotoDTO> fotosResponse = fotos.stream()
+      .map((foto) -> new FotoDTO(foto, request.getRequestURL().toString()))
+      .collect(java.util.stream.Collectors.toList());
+    return ResponseEntity.ok().body(fotosResponse);
   }
 
   @GetMapping("/fotos/{id}")
-  public ResponseEntity<FotoSatelite> findById(@PathVariable String id) {
+  public ResponseEntity<FotoDTO> findById(@PathVariable String id, HttpServletRequest request) throws IOException {
     FotoSatelite foto = fotoService.findById(id);
+    return ResponseEntity.ok().body(new FotoDTO(foto, request.getRequestURL().toString()));
+  }
 
   @GetMapping("/download/{id}")
   public HttpEntity<byte[]> downloadImage(@PathVariable String id) throws IOException {
@@ -58,7 +63,7 @@ public class FotoController {
   }
 
   @DeleteMapping("/fotos/{id}")
-  public ResponseEntity<FotoSatelite> delete(@PathVariable String id) {
+  public ResponseEntity<FotoDTO> delete(@PathVariable String id) throws IOException {
     fotoService.delete(id);
     return ResponseEntity.ok().build();
   }

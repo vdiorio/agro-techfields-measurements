@@ -37,9 +37,10 @@ public class FotoService {
       .orElseThrow(() -> new IllegalArgumentException("Não existe uma foto com o id: " + id));
   }
 
-  public void delete(String id) {
+  public void delete(String id) throws IOException {
     FotoSatelite foto = fotoSateliteRepository.findById(id)
       .orElseThrow(() -> new IllegalArgumentException("Não existe uma foto com o id: " + id));
+      Files.delete(Paths.get(foto.getPath()));
     fotoSateliteRepository.delete(foto);
   }
 

@@ -10,14 +10,17 @@ public class FotoSatelite {
   @Id
   private String id; // Identificador do documento no MongoDB
 
-  private String url; // URL da foto
+  private String fileName; // Nome da foto salva
+
+  private String path; // URL da foto
 
   private Date data; // Data e hora da foto
 
   public FotoSatelite() {}
 
-  public FotoSatelite(String url) {
-    this.url = url;
+  public FotoSatelite(String fileName, String path) {
+    this.fileName = fileName;
+    this.path = path;
     this.data = new Date();
   }
 
@@ -29,12 +32,12 @@ public class FotoSatelite {
     this.id = id;
   }
 
-  public String getUrl() {
-    return url;
+  public String getPath() {
+    return path;
   }
 
-  public void setUrl(String url) {
-    this.url = url;
+  public void setPath(String path) {
+    this.path = path;
   }
 
   public Date getData() {
@@ -43,5 +46,13 @@ public class FotoSatelite {
 
   public void setData(Date data) {
     this.data = data;
+  }
+
+  public String getFileName() {
+    return fileName;
+  }
+
+  public void setFileName(String fileName) {
+    this.fileName = fileName;
   }
 }

@@ -19,7 +19,6 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.doThrow;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
@@ -38,7 +37,7 @@ public class FotoSateliteTest {
 
   private FotoSatelite mockPhoto() {
     FotoSatelite mockPhoto = new FotoSatelite();
-    mockPhoto.setUrl("http://foto1.com");
+    mockPhoto.setPath("photo/path");
     mockPhoto.setId("1");
     mockPhoto.setData(new Date());
     return mockPhoto;
@@ -67,21 +66,6 @@ public class FotoSateliteTest {
   }
 
   @Test
-  @DisplayName("Testa retorno da rota POST:/fotos.")
-  public void testaSeRetornaErroQuandoNaoEncontraFotos() throws Exception {
-    
-    Mockito.when(fotoService.create(any())).thenReturn(mockPhoto());
-
-    mockMvc.perform(post("/fotos")
-      .contentType(MediaType.APPLICATION_JSON)
-      .content("{\"url\":\"http://foto1.com\"}"))
-      .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-      .andExpect(status().isCreated())
-      .andExpect(jsonPath("$.id").value("1"))
-      .andExpect(jsonPath("$.url").value("http://foto1.com"));
-  }
-
-  @Test
   @DisplayName("Testa retorno da rota GET:/fotos/{id}.")
   public void testaSeRetornaFotoPorId() throws Exception {    
     Mockito.when(fotoService.findById(any())).thenReturn(mockPhoto());
@@ -89,8 +73,7 @@ public class FotoSateliteTest {
     mockMvc.perform(get("/fotos/1"))
       .andExpect(content().contentType(MediaType.APPLICATION_JSON))
       .andExpect(status().isOk())
-      .andExpect(jsonPath("$.id").value("1"))
-      .andExpect(jsonPath("$.url").value("http://foto1.com"));
+      .andExpect(jsonPath("$.id").value("1"));
   }
 
   @Test
@@ -134,12 +117,6 @@ public class FotoSateliteTest {
     doThrow(new RuntimeException("Erro Interno no servidor")).when(fotoService).create(any());
     doThrow(new RuntimeException("Erro Interno no servidor")).when(fotoService).delete(any());
     
-    mockMvc.perform(post("/fotos")
-      .contentType(MediaType.APPLICATION_JSON)
-      .content("{\"url\":\"http://foto1.com\"}"))
-      .andExpect(status().isInternalServerError())
-      .andExpect(jsonPath("$.error").value("Erro Interno no servidor"));
-
     mockMvc.perform(get("/fotos"))
       .andExpect(status().isInternalServerError())
       .andExpect(jsonPath("$.error").value("Erro Interno no servidor"));

@@ -32,6 +32,7 @@ public class IlhaService {
   }
 
   public void delete(String id) {
-    ilhaRepository.deleteById(id);
+    Ilha ilha = findById(id);
+    ilhaRepository.delete(ilha);
   }
 }

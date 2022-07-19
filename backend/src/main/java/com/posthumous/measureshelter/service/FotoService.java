@@ -51,4 +51,10 @@ public class FotoService {
     Files.write(path, bytes);
     return fotoSateliteRepository.save(new FotoSatelite(filename, path.toString()));
   }
+
+  public byte[] downloadImage(String id) throws IOException {
+    FotoSatelite foto = fotoSateliteRepository.findById(id)
+      .orElseThrow(() -> new IllegalArgumentException("Não existe uma foto com o id: " + id));
+    return Files.readAllBytes(Paths.get(foto.getPath()));
+  }
 }

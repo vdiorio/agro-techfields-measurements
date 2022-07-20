@@ -2,7 +2,7 @@
  RUN mkdir -p /app/source
  COPY . /app/source
  WORKDIR /app/source
- RUN ./mvnw clean package
+ RUN ./mvn clean package
 
 FROM openjdk:11.0-jre
 COPY --from=build-image /app/source/target/*.jar /app/app.jar

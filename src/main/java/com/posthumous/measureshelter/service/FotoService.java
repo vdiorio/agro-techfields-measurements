@@ -48,7 +48,7 @@ public class FotoService {
     String folder = Paths.get(".").toAbsolutePath().normalize().toString();
     byte[] bytes = foto.getBytes();
     String filename = new Date().getTime() + ".jpg";
-    Path path = Path.of(folder + "/backend/src/main/resources/static/images/" + filename);
+    Path path = Path.of(folder + "/src/main/resources/static/images/" + filename);
     Files.write(path, bytes);
     return fotoSateliteRepository.save(new FotoSatelite(filename, path.toString()));
   }

@@ -12,6 +12,6 @@ public class FotoDTO {
   public FotoDTO(FotoSatelite foto, String path) {
     this.id = foto.getId();
     this.data = foto.getData();
-    this.downlaodPath = path.replace("/fotos", "/download") + foto.getId();
+    this.downlaodPath = path.replace("/fotos", "/download/") + foto.getId();
   }
 }
